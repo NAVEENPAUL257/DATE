@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --dark-pink: #ef476f;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffe5ec;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; /* Prevents scrollbars when button jumps */
+        }
+
+        .container {
+            text-align: center;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        #valentine-gif {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            color: var(--dark-pink);
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 50px;
+            position: relative;
+        }
+
+        button {
+            padding: 10px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #yes-btn {
+            background-color: var(--primary-pink);
+            color: white;
+        }
+
+        #yes-btn:hover {
+            background-color: var(--dark-pink);
+            transform: scale(1.1);
+        }
+
+        #no-btn {
+            background-color: #ccc;
+            color: #555;
+            position: relative; /* Will change to absolute via JS */
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-card">
+        <img id="valentine-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZudmZ3Y2Rxc3RxeXN6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Puppy Eyes">
+        <h1 id="question">Will you be my Valentine?</h1>
+        
+        <div class="btn-group">
+            <button id="yes-btn">Yes!</button>
+            <button id="no-btn">No</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const gif = document.getElementById('valentine-gif');
+        const question = document.getElementById('question');
+
+        // Function to move the "No" button
+        const moveButton = () => {
+            // Calculate random positions, ensuring the button stays within the viewport
+            const padding = 50;
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        };
+
+        // Add both hover and touch events for the elusive effect
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents clicking on mobile
+            moveButton();
+        });
+
+        // Yes Button Logic
+        yesBtn.addEventListener('click', () => {
+            // Update UI
+            question.innerText = "Yay! See you on the 14th! ❤️";
+            gif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZudmZ3Y2Rxc3RxeXN6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/MeIucaj5TKJN2O5oMW/giphy.gif"; // Success GIF
+            noBtn.style.display = 'none';
+            
+            // Trigger Confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff85a2', '#ef476f', '#ffd166']
+            });
+        });
+    </script>
+</body>
+</html>
